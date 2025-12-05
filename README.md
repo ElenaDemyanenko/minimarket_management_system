@@ -17,16 +17,16 @@
 
 Быстрый старт (с готовой тестовой базой)
 Клонируйте репозиторий:
-git clone https://github.com/ваш_логин/minimarket-management-system.git
+git clone https://github.com/ElenaDemyanenko/minimarket_management_system.git
 cd minimarket-management-system
 
 Установите зависимости:
 pip install -r requirements.txt
 
 Запустите сервер:
-uvicorn main:app --reload
+python -m uvicorn main:app --reload
 
-Откройте документацию API: http://localhost:8000/docs
+Откройте документацию API: http://127.0.0.1:8000/docs
 
 ## Настройка локальной базы данных
 
@@ -40,15 +40,23 @@ createdb minimarket
 
 Обновите настройки подключения в database.py
 
-### Структура проекта
-├── main.py              # Основной файл FastAPI приложения
-├── models.py            # Модели данных SQLModel
-├── requests.py          # Функции для работы с базой данных
-├── database.py          # Настройки подключения к БД
-├── requirements.txt     # Зависимости Python
-├── Tables.sql           # SQL для создания таблиц
-├── Data.sql             # SQL с тестовыми данными
-└── README.md            # Документация
+## Структура проекта
+### Основной файл FastAPI приложения
+main.py              
+### Модели данных SQLModel
+models.py            
+### Функции для работы с базой данных
+requests.py          
+### Настройки подключения к БД
+requests.py          
+### Зависимости Python
+requirements.txt     
+### SQL для создания таблиц
+Tables.sql           
+### SQL с тестовыми данными
+Data.sql             
+### Документация
+README.md            
 
 ## Основные возможности API
 
@@ -96,7 +104,7 @@ createdb minimarket
 
 ### Создание заказа с автоматическим расчётом суммы:
 
-# 1.Создаём заказ (сумма будет 0):
+#### 1.Создаём заказ (сумма будет 0):
 POST /orders
 {
   "customer_id": 1,
@@ -104,7 +112,7 @@ POST /orders
   "status": "new"
 }
 
-# 2.Добавляем товары (сумма пересчитывается автоматически):
+#### 2.Добавляем товары (сумма пересчитывается автоматически):
 POST /order-items
 {
   "order_id": 1,
@@ -120,7 +128,7 @@ POST /order-items
   "unit_price": 45.00
 }
 
-# 3.Проверяем заказ - сумма стала 205.00 автоматически:
+#### 3.Проверяем заказ - сумма стала 205.00 автоматически:
 GET /orders/1
 
 ### Получение списка товаров:
@@ -131,8 +139,8 @@ GET /products/category/Молочные
 
 ## Документация API
 После запуска сервера доступна автоматически сгенерированная документация:
-Swagger UI: http://localhost:8000/docs
-ReDoc: http://localhost:8000/redoc
+Swagger UI: http://127.0.0.1:8000/docs
+ReDoc: http://127.0.0.1:8000/redoc
 
 ## Особенности системы
 - Автоматический расчёт сумм - система автоматически пересчитывает стоимость заказа при добавлении или удалении товаров

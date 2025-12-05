@@ -4,7 +4,7 @@ from models import (
     OrderCreate, OrderItemCreate, OrderUpdate, CustomerCreate, ProductCreate, CashierCreate
 )
 
-# ==================== ФУНКЦИИ АВТОМАТИЧЕСКОГО ПЕРЕСЧЁТА ====================
+#ФУНКЦИИ АВТОМАТИЧЕСКОГО ПЕРЕСЧЁТА
 
 def recalculate_order_total(session: Session, order_id: int):
     """Автоматический пересчёт суммы заказа на основе товаров"""
@@ -14,7 +14,7 @@ def recalculate_order_total(session: Session, order_id: int):
     for item in order_items:
         total += item.quantity * item.unit_price
     
-    # Обновляем сумму заказа
+    #обновление суммы заказа
     order = get_order_by_id(session, order_id)
     if order:
         order.total_amount = total
@@ -24,7 +24,7 @@ def recalculate_order_total(session: Session, order_id: int):
     
     return total
 
-# ==================== ФУНКЦИИ ЧТЕНИЯ ====================
+#ФУНКЦИИ ЧТЕНИЯ
 
 def get_all_customers(session: Session):
     return session.exec(select(Customer)).all()
@@ -71,7 +71,7 @@ def get_order_by_id(session: Session, order_id: int):
 def get_cashier_by_id(session: Session, cashier_id: int):
     return session.exec(select(Cashier).where(Cashier.id == cashier_id)).first()
 
-# ==================== ФУНКЦИИ СОЗДАНИЯ, ОБНОВЛЕНИЯ, УДАЛЕНИЯ ====================
+#ФУНКЦИИ СОЗДАНИЯ, ОБНОВЛЕНИЯ, УДАЛЕНИЯ
 
 def create_order(session: Session, order_data: OrderCreate):
     """Создание заказа с автоматической установкой суммы = 0"""
@@ -88,7 +88,7 @@ def create_order_item(session: Session, order_item_data: OrderItemCreate):
     session.commit()
     session.refresh(db_order_item)
     
-    # Автоматически пересчитываем сумму заказа
+    #автоматически пересчитывание суммы заказа
     recalculate_order_total(session, order_item_data.order_id)
     
     return db_order_item
@@ -100,7 +100,7 @@ def delete_order_item(session: Session, order_item_id: int):
         order_id = order_item.order_id
         session.delete(order_item)
         session.commit()
-        # Пересчитываем сумму после удаления
+        #пересчитывание суммы после удаления
         recalculate_order_total(session, order_id)
         return True
     return False
